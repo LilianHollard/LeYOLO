@@ -1,3 +1,5 @@
+![alt text](LeYOLO-logo.png)
+
 # LeYOLO installation and quickstart
 
 ## Install
