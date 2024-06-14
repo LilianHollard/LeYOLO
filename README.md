@@ -17,8 +17,8 @@ Building upon these optimizations and leveraging more efficient backbones, this 
 
 # LeYOLO Results
 
-LeYOLO familly model results on MSCOCO val dataset.
-You can find pre-trained weight on the weights folder.
+LeYOLO family model results on MSCOCO val dataset. 
+Find pre-trained weights in the weights folder.
 
 | Models           | mAP | Image Size     | FLOP (G) |
 |------------------|-----|----------------|----------|
@@ -31,9 +31,9 @@ You can find pre-trained weight on the weights folder.
 
 ## Reproductability
 
-Reproduct LeYOLO results by using cfg file.
-We did not use any expansive or fancy training methods, just classic and default Ultralytics training receipes.
-We enable non-computer scientist to perform fast training reproductability for their own research with very easy training methods!
+Reproduce LeYOLO results by using a cfg file.
+We did not use expansive or fancy training methods, just classic and default Ultralytics training recipes.
+We enable non-computer scientist to perform fast training reproducibility for their research with effortless training methods!
 
 
 # LeYOLO installation and quickstart
