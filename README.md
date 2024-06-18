@@ -79,7 +79,10 @@ model.export(format="onnx")
 # Special thanks
 
 <p align="justify">
-We could only have accomplished this with the excellent work from the Ultralytics team since YOLOv5. LeYOLO fully integrates with Ultralytics, and their support and documentation comprehensively guide training, inference, validation, and export mechanisms. For more details, refer to the Ultralytics documentation: https://www.ultralytics.com.
+We could only have accomplished this with the excellent work from the Ultralytics team since YOLOv5. LeYOLO fully integrates with Ultralytics, and their support and documentation comprehensively guide training, inference, validation, and export mechanisms.
+</p>
+<p align="justify">
+For more details, refer to the Ultralytics documentation: https://www.ultralytics.com.
 </p>
 
 
