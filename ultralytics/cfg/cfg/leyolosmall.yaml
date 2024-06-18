@@ -32,7 +32,7 @@ head:
 
   - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
   - [[-1, 4], 1, Concat, [1]]  # cat backbone P3
-  - [-1, 1, MobileNetV3_BLOCK, [32, 3, 96, True, "SI", 1, False]] 
+  - [-1, 1, MobileNetV3_BLOCK, [32, 3, None, True, "SI", 1, False]] 
   - [-1, 1, MobileNetV3_BLOCK, [32, 3, 64, True, "SI", 1]] 
   - [-1, 1, MobileNetV3_BLOCK, [32, 3, 64, True, "SI", 1]] 
 

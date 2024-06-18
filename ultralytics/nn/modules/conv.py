@@ -399,17 +399,16 @@ def adjust_channels(channels: int, width_mult: float):
 
 def activation_function(act="RE"):
     res = nn.Hardswish()
-    match act:
-        case "RE":
-            res = nn.ReLU6(inplace=True)
-        case "GE":
-            res = nn.GELU()
-        case "SI":
-            res = nn.SiLU()
-        case "EL":
-            res = nn.ELU()
-        case _:
-            res = nn.Hardswish()
+    if act == "RE":
+        res = nn.ReLU6(inplace=True)
+    elif act == "GE":
+        res = nn.GELU()
+    elif act == "SI":
+        res = nn.SiLU()
+    elif act == "EL":
+        res = nn.ELU()
+    else:
+        res = nn.Hardswish()
     return res
 
 

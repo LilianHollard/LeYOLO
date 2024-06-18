@@ -759,6 +759,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
                     args[j] = locals()[a] if a in locals() else ast.literal_eval(a)
 
         n = n_ = max(round(n * depth), 1) if n > 1 else n  # depth gain
+        
         if m in (
             Classify,
             Conv,
@@ -768,8 +769,6 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             GhostBottleneck,
             SPP,
             SPPF,
-            EBPPP,
-            EBPP,
             DWConv,
             Focus,
             BottleneckCSP,
@@ -785,17 +784,16 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             RepC3,
             mn_conv,
             InvertedBottleneck,
-            Depthwise_conv_bifpn,
             MobileNetV3_BLOCK,
         ):
+
             c1, c2 = ch[f], args[0]
             if c2 != nc:  # if c2 not equal to number of classes (i.e. for Classify() output)
                 c2 = make_divisible(min(c2, max_channels) * width, 8)
-
+            
             args = [c1, c2, *args[1:]]
             
             if m in (InvertedBottleneck,MobileNetV3_BLOCK):
-              #print(args[3])
               if isinstance(args[3],int): #might use "None"
                 args[3] = make_divisible(min(args[3], max_channels) * width, 8)
               
@@ -818,8 +816,6 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             args = [ch[f]]
         elif m is Concat:
             c2 = sum(ch[x] for x in f)
-        elif m is Add:
-            args = args
         elif m in (Detect, Segment, Pose, OBB):
             args.append([ch[x] for x in f])
             if m is Segment:
@@ -839,8 +835,8 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
         layers.append(m_)
         if i == 0:
             ch = []
-        else:
-            ch.append(c2)
+        ch.append(c2)
+        
     return nn.Sequential(*layers), sorted(save)
 
 
