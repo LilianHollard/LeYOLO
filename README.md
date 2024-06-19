@@ -28,8 +28,8 @@ Find pre-trained weights in the weights folder.</p>
 |------------------|-----|----------------|----------|
 |LeYOLONano        |25.2 | 320            | 0.66     |
 |LeYOLONano        |31.3 | 480            | 1.47     |
-|LeYOLOSmall       |35.2 | 320            | 2.53     |
-|LeYOLOSmall       |38.2 | 480            | 4.51     |
+|LeYOLOSmall       |35.2 | 480            | 2.53     |
+|LeYOLOSmall       |38.2 | 640            | 4.51     |
 |LeYOLOMedium      |39.3 | 640            | 5.80     |
 |LeYOLOLarge       |41.0 | 768            | 8.40     |
 
