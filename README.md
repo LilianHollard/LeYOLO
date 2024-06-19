@@ -1,4 +1,4 @@
-![alt text](gitimg/LeYOLO-logo.png)
+![alt text](gitimg/leyolo.png)
 
 
 # Abstract

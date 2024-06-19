@@ -1,4 +1,5 @@
 .ipynb_checkpoints/
-
+runs/
+datasets/
 Untitled.ipynb
 yolov8n.pt
