@@ -2,7 +2,7 @@
 
 
 # Abstract
--> Read paper : (arXiv link)
+-> Read paper : https://arxiv.org/abs/2406.14239
 
 ![alt text](gitimg/final.png)
 
