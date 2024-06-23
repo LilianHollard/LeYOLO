@@ -1,5 +1,6 @@
 ![alt text](gitimg/leyolo.png)
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/leyolo-new-scalable-and-efficient-cnn/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=leyolo-new-scalable-and-efficient-cnn)
 
 # Abstract
 -> Read paper : https://arxiv.org/abs/2406.14239
