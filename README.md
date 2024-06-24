@@ -36,7 +36,7 @@ Find pre-trained weights in the weights folder.</p>
 
 </p>
 
-## Reproductability
+## Reproducibility
 
 
 <p align="justify">
