@@ -1,6 +1,8 @@
 ![alt text](gitimg/leyolo.png)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/leyolo-new-scalable-and-efficient-cnn/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=leyolo-new-scalable-and-efficient-cnn)
+<a href="https://huggingface.co/spaces/kadirnar/LeYOLO"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg" alt="LeYOLO Demo"></a>
+![alt text](gitimg/final.png)
 
 # Abstract
 -> Read paper : https://arxiv.org/abs/2406.14239
