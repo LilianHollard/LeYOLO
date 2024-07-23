@@ -1,14 +1,14 @@
 ![alt text](gitimg/leyolo.png)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/leyolo-new-scalable-and-efficient-cnn/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=leyolo-new-scalable-and-efficient-cnn)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LilianHollard/LeYOLO/blob/main/minimal.ipynb)
 <a href="https://huggingface.co/spaces/kadirnar/LeYOLO"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg" alt="LeYOLO Demo"></a>
 
-
 # Abstract
+
 -> Read paper : https://arxiv.org/abs/2406.14239
 
 ![alt text](gitimg/final.png)
-
 
 <p align="justify">Computational efficiency in deep neural networks is critical for object detection, especially as newer models prioritize speed over efficient computation (FLOP). This evolution has somewhat left behind embedded and mobile-oriented AI object detection applications. In this paper, we focus on design choices of neural network architectures for efficient object detection computation based on FLOP and propose several optimizations to enhance the efficiency of YOLO-based models.</p>
 
@@ -16,14 +16,10 @@
 
 <p align="justify">Building upon these optimizations and leveraging more efficient backbones, this paper contributes to a new scaling paradigm for object detection and YOLO-centric models called LeYOLO. Our contribution consistently outperforms existing models in various resource constraints, achieving unprecedented accuracy and flop ratio. Notably, LeYOLO-Small achieves a competitive mAP score of 38.2% on the COCO val with just 4.5 FLOP(G), representing a 42% reduction in computational load compared to the latest state-of-the-art YOLOv9-Tiny model while achieving similar accuracy. Our novel model family achieves a FLOP-to-accuracy ratio previously unattained, offering scalability that spans from ultra-low neural network configurations (< 1 GFLOP) to efficient yet demanding object detection setups (> 4 GFLOPs) with 25.2, 31.3, 35.2, 38.2, 39.3 and 41 mAP for 0.66, 1.47, 2.53, 4.51, 5.8 and 8.4 FLOP(G).</p>
 
-
-
-
 # LeYOLO Results
 
 <p align="justify">LeYOLO family model results on MSCOCO val dataset. 
 Find pre-trained weights in the weights folder.</p>
-
 
 <p align="center">
 
@@ -40,7 +36,6 @@ Find pre-trained weights in the weights folder.</p>
 
 ## Reproducibility
 
-
 <p align="justify">
 Reproduce LeYOLO results by using a cfg file.
 We did not use expansive or fancy training methods, just classic and default Ultralytics training recipes.
@@ -50,16 +45,21 @@ We enable non-computer scientist to perform fast training reproducibility for th
 # LeYOLO installation and quickstart
 
 ## Install
-- Warning ! Upgrading pip might be necessary 
-	```
-	python3 -m pip install --upgrade pip
-	```
+
+- Warning ! Upgrading pip might be necessary
+
+```bash
+python3 -m pip install --upgrade pip
+```
+
 - Go into root folder
-	```
-	pip install -e .
-	```
+
+```bash
+pip install -e .
+```
 
 ## Quickstart
+
 Use CLI or python interface to use LeYOLO / YOLOv8
 
 - Minimal example can be found in minimal.ipynb notebook.
@@ -77,7 +77,6 @@ model.train(data="coco8.yaml", epochs=3)
 model.val()
 model.export(format="onnx")
 ```
-
 
 # Special thanks
 
