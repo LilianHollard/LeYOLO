@@ -43,6 +43,11 @@ from ultralytics.nn.modules import (
     mn_conv,
     InvertedBottleneck,
     MobileNetV3_BLOCK,
+    efficient_det,
+    classic_mobilenet_v3,  
+    conv_ln,
+    ln_conv,
+    ConvNext_block,
 )
 from ultralytics.utils import DEFAULT_CFG_DICT, DEFAULT_CFG_KEYS, LOGGER, colorstr, emojis, yaml_load
 from ultralytics.utils.checks import check_requirements, check_suffix, check_yaml
@@ -785,6 +790,11 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             mn_conv,
             InvertedBottleneck,
             MobileNetV3_BLOCK,
+            efficient_det,
+            classic_mobilenet_v3,
+            conv_ln,
+            ln_conv,
+            ConvNext_block,
         ):
 
             c1, c2 = ch[f], args[0]

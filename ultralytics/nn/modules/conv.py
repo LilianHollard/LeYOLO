@@ -423,3 +423,37 @@ class mn_conv(nn.Module):
     def forward(self, x):
         return self.act(self.bn(self.c(x)))
 
+
+
+            
+class conv_ln(nn.Module):
+    def __init__(self, c1, c2, k=7, s=1, p=None, groups=1):
+        super().__init__()
+        padding = 0 if k==s else autopad(k,p,1)
+        self.conv = nn.Conv2d(c1, c2, k, s, padding, groups=c1)
+        self.norm = nn.LayerNorm(c2)
+    def forward(self, x):
+        x = self.conv(x)
+        x = x.permute(0, 2, 3, 1)
+        x = self.norm(x)
+        x = x.permute(0, 3, 1, 2)
+        return x
+        
+            
+class ln_conv(nn.Module):
+    def __init__(self, c1, c2, k=7, s=1, p=None, groups=1):
+        super().__init__()
+        padding = 0 if k==s else autopad(k,p,1)
+        self.conv = nn.Conv2d(c1, c2, k, s, padding, groups=1)
+        self.norm = nn.LayerNorm(c1)
+    def forward(self, x):
+        x = x.permute(0, 2, 3, 1)
+        x = self.norm(x)
+        x = x.permute(0, 3, 1, 2)
+        x = self.conv(x)
+        return x
+
+
+
+
+

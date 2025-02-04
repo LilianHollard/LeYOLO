@@ -10,7 +10,7 @@ import math
 from dataclasses import dataclass
 from typing import Union
 
-from .conv import Conv, DWConv, GhostConv, LightConv, RepConv, mn_conv
+from .conv import Conv, DWConv, GhostConv, LightConv, RepConv, mn_conv, conv_ln, ln_conv
 from .transformer import TransformerBlock
 
 
@@ -477,4 +477,145 @@ class MobileNetV3_BLOCK(nn.Module):
             return x + self.layers(x)
         else:
             return self.layers(x)
+
+
+
+class SqueezeExcitation_effnet(nn.Module):
+    def __init__(self, c_in, c_red):
+        super().__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.fc = nn.Sequential(
+            nn.Linear(c_in, c_red),
+            #nn.ReLU(inplace=True),
+            nn.Linear(c_red, c_in),
+            nn.SiLU(inplace=True),
+            nn.Sigmoid()
+        )
+    def forward(self, x):
+        y = self.avg_pool(x).view(x.size(0), -1)
+        y = self.fc(y).view(x.size(0), x.size(1), 1, 1)
+        return x*y
+        
+        
+        
+class SqueezeExcitation_mbnet(nn.Module):
+    def __init__(self, c_in, c_red):
+        super().__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.fc = nn.Sequential(
+            nn.Linear(c_in, c_red),
+            #nn.ReLU(inplace=True),
+            nn.Linear(c_red, c_in),
+            nn.ReLU(),
+            nn.Hardsigmoid()
+        )
+    def forward(self, x):
+        y = self.avg_pool(x).view(x.size(0), -1)
+        y = self.fc(y).view(x.size(0), x.size(1), 1, 1)
+        return x*y
+
+#Efficientdet consistently use SiLU
+#Also, need to implement squeeze and excite.
+class efficient_det(nn.Module):
+    def __init__(self, c1, c2, k=3, e=None, stride=1, act=None, pw=True):
+        super().__init__()
+        
+        c_mid = e if e != None else c1
+        
+        self.residual = c1 == c2 and stride == 1
+        
+        features = [mn_conv(c1, c_mid, act="SI")] if pw else []
+        features.extend([mn_conv(c_mid, c_mid, k, stride, g=c_mid, act="SI"),
+                         SqueezeExcitation_effnet(c_mid, c_mid//24),
+                         nn.Conv2d(c_mid, c2, 1),
+                         nn.BatchNorm2d(c2),
+                         ])
+        self.layers = nn.Sequential(*features)
+        
+    def forward(self, x):
+        if self.residual:
+            return x + self.layers(x)
+        else:
+            return self.layers(x)
+            
+            
+#Efficientdet consistently use SiLU
+#Also, need to implement squeeze and excite.
+class classic_mobilenet_v3(nn.Module):
+    def __init__(self, c1, c2, k=3, e=None, stride=1, attn=True, act=None, pw=True):
+        super().__init__()
+        
+        c_mid = e if e != None else c1
+        
+        self.residual = c1 == c2 and stride == 1
+        
+        features = [mn_conv(c1, c_mid, act=act)] if pw else []
+        features.extend([mn_conv(c_mid, c_mid, k, stride, g=c_mid, act=act),
+                         SqueezeExcitation_mbnet(c_mid, c_mid//4) if attn else nn.Identity(),
+                         nn.Conv2d(c_mid, c2, 1),
+                         nn.BatchNorm2d(c2),
+                         ])
+        self.layers = nn.Sequential(*features)
+        
+    def forward(self, x):
+        if self.residual:
+            return x + self.layers(x)
+        else:
+            return self.layers(x)
+            
+            
+
+        
+  
+
+class StochasticDepth(nn.Module):
+    def __init__(self, drop_prob=None, mode="row"):
+        super(StochasticDepth, self).__init__()
+        self.drop_prob = drop_prob
+        self.mode = mode
+
+    def forward(self, x):
+        if not self.training or self.drop_prob == 0.0:
+            return x
+
+        keep_prob = 1 - self.drop_prob
+        if self.mode == "row":
+            shape = [x.shape[0]] + [1] * (x.ndim - 1)
+        else:
+            shape = [x.shape[0], x.shape[1]] + [1] * (x.ndim - 2)
+        
+        random_tensor = keep_prob + torch.rand(shape, dtype=x.dtype, device=x.device)
+        random_tensor.floor_()  # binarize
+        output = x.div(keep_prob) * random_tensor
+        return output
+        
+#ConvNext -based on pytorch implementation
+class ConvNext_block(nn.Module):
+    def __init__(self, c1, c2, c_mid, depth_prob=0.0):
+        super().__init__()
+        
+        self.c_in = conv_ln(c1, c1)
+        self.linear_in = nn.Linear(c1, c_mid)
+        self.act = nn.GELU(approximate="none")
+        self.linear_out = nn.Linear(c_mid, c1)
+        
+        self.stochastic_depth = StochasticDepth(depth_prob)
+        
+        self.skip = nn.Identity() if c1 == c2 else nn.Conv2d(c1, c2, kernel_size=1)
+        
+    def forward(self, x):
+        y = self.c_in(x) #careful <- conv_ln take as an input : X in BCHW and return BCHW (even if there is a permute for linearnorm)
+        y = y.permute(0,2,3,1)
+        y = self.act(self.linear_in(y))
+        y = self.linear_out(y)
+        y = y.permute(0, 3, 1, 2) #back to BCHW
+        x = self.stochastic_depth(y) + x
+        return x
+    
+    
+        
+        
+      
+  
+  
 

@@ -38,6 +38,9 @@ from .block import (
     ResNetLayer,
     InvertedBottleneck,
     MobileNetV3_BLOCK,
+    efficient_det,
+    classic_mobilenet_v3,
+    ConvNext_block,
 )
 from .conv import (
     CBAM,
@@ -53,7 +56,9 @@ from .conv import (
     LightConv,
     RepConv,
     SpatialAttention,
-    mn_conv,
+    mn_conv, 
+    conv_ln,
+    ln_conv,
 )
 from .head import OBB, Classify, Detect, Pose, RTDETRDecoder, Segment
 from .transformer import (
@@ -117,4 +122,5 @@ __all__ = (
     "MLP",
     "ResNetLayer",
     "OBB",
+    "efficient_det",
 )

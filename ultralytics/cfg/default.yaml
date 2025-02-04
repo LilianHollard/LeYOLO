@@ -30,7 +30,7 @@ rect: False  # (bool) rectangular training if mode='train' or rectangular valida
 cos_lr: False  # (bool) use cosine learning rate scheduler
 close_mosaic: 10  # (int) disable mosaic augmentation for final epochs (0 to disable)
 resume: False  # (bool) resume training from last checkpoint
-amp: True  # (bool) Automatic Mixed Precision (AMP) training, choices=[True, False], True runs AMP check
+amp: False  # (bool) Automatic Mixed Precision (AMP) training, choices=[True, False], True runs AMP check
 fraction: 1.0  # (float) dataset fraction to train on (default is 1.0, all images in train set)
 profile: False  # (bool) profile ONNX and TensorRT speeds during training for loggers
 freeze: None  # (int | list, optional) freeze first n layers, or freeze list of layer indices during training
@@ -111,7 +111,7 @@ shear: 0.0  # (float) image shear (+/- deg)
 perspective: 0.0  # (float) image perspective (+/- fraction), range 0-0.001
 flipud: 0.0  # (float) image flip up-down (probability)
 fliplr: 0.5  # (float) image flip left-right (probability)
-mosaic: 0.0  # (float) image mosaic (probability)
+mosaic: 1.0  # (float) image mosaic (probability)
 mixup: 0.0  # (float) image mixup (probability)
 copy_paste: 0.0  # (float) segment copy-paste (probability)
 auto_augment: randaugment  # (str) auto augmentation policy for classification (randaugment, autoaugment, augmix)

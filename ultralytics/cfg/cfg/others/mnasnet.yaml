@@ -1,0 +1,60 @@
+nc: 80  # number of classes
+scales: 
+  # [depth, width, max_channels]
+  n: [1.0, 1.0, 576] 
+
+# LeYOLO Nano backbone
+backbone:
+  # [from, repeats, module, args]
+  #(self, c2, k=3, e=None, stride=1, pw=True)
+  - [-1, 1, mn_conv, [32, 3, 2, "RE"]]                   #P1  0
+  - [-1, 1, classic_mobilenet_v3, [16, 3, 32, 1, False, "RE", False]]        #P1  1
+  
+  - [-1, 1, classic_mobilenet_v3, [24, 3, 48, 2, False, "RE"]]        #P2  2
+  - [-1, 1, classic_mobilenet_v3, [24, 3, 72, 1, False, "RE"]]        #P2  3
+  - [-1, 1, classic_mobilenet_v3, [24, 3, 72, 1, False, "RE"]]        #P2  4
+  
+  - [-1, 1, classic_mobilenet_v3, [40, 5, 120, 2, False, "RE"]]        #P3  5
+  - [-1, 1, classic_mobilenet_v3, [40, 5, 120, 1, False, "RE"]]        #P3  6
+  - [-1, 1, classic_mobilenet_v3, [40, 5, 120, 1, False, "RE"]]        #P3  7
+  
+  - [-1, 1, classic_mobilenet_v3, [80, 5, 240, 2, False, "RE"]]        #P4  8
+  - [-1, 1, classic_mobilenet_v3, [80, 5, 480, 1, False, "RE"]]        #P4  9
+  - [-1, 1, classic_mobilenet_v3, [80, 5, 480, 1, False, "RE"]]        #P4  10
+  - [-1, 1, classic_mobilenet_v3, [96, 3, 480, 1, False, "RE"]]        #P4  11
+  - [-1, 1, classic_mobilenet_v3, [96, 3, 576, 1, False, "RE"]]        #P4  12
+  
+  - [-1, 1, classic_mobilenet_v3, [192, 5, 576, 2, False, "RE"]]        #P5  13
+  - [-1, 1, classic_mobilenet_v3, [192, 5, 1152, 1, False, "RE"]]        #P5  14
+  - [-1, 1, classic_mobilenet_v3, [192, 5, 1152, 1, False, "RE"]]        #P5  15
+  - [-1, 1, classic_mobilenet_v3, [320, 3, 1152, 1, False, "RE"]]        #P5  16
+  
+  - [-1, 1, SPPF, [96, 5]]                               #    17
+  
+# LeYOLO Nano head
+head:
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]                #18
+  - [[-1, 12], 1, Concat, [1]]  # cat backbone P4             #19
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]]   #20
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]]   #21
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]]   #22
+
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 7], 1, Concat, [1]]  # cat backbone P3
+  - [-1, 1, MobileNetV3_BLOCK, [32, 3, 104, True, "SI", 1, False]] 
+  - [-1, 1, MobileNetV3_BLOCK, [32, 3, 64, True, "SI", 1]] 
+  - [-1, 1, MobileNetV3_BLOCK, [32, 3, 64, True, "SI", 1]]    #27
+
+  - [-1, 1, mn_conv, [64, 3, 2, "SI"]]
+  - [[-1, 22], 1, Concat, [1]]  # cat head P4
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]] 
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]] 
+  - [-1, 1, MobileNetV3_BLOCK, [64, 5, 128, True, "SI", 1]]   #32
+
+  - [-1, 1, mn_conv, [96, 3, 2, "SI"]]
+  - [[-1, 17], 1, Concat, [1]]  # cat head P5
+  - [-1, 1, MobileNetV3_BLOCK, [96, 5, 192, True, "SI", 1]] 
+  - [-1, 1, MobileNetV3_BLOCK, [96, 5, 192, True, "SI", 1]] 
+  - [-1, 1, MobileNetV3_BLOCK, [96, 5, 192, True, "SI", 1]]   #37
+
+  - [[27, 32, 37], 1, Detect, [nc]]  # Detect(P3, P4, P5)

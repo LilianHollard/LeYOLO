@@ -42,9 +42,10 @@ class Detect(nn.Module):
              Conv(c2, c2, 3, g=c2), Conv(c2, c2, 3, g=c2), 
              nn.Conv2d(c2, 4 * self.reg_max, 1)) for x in ch
         )
-        self.cv3 = nn.ModuleList(nn.Sequential(Conv(x, c3, 1), 
+        """self.cv3 = nn.ModuleList(nn.Sequential(Conv(x, c3, 1), 
                                      Conv(c3, c3, 3, g=c3), Conv(c3, c3, 3, g=c3),
-                                     nn.Conv2d(c3, self.nc, 1)) for x in ch)
+                                     nn.Conv2d(c3, self.nc, 1)) for x in ch)"""
+        self.cv3 = nn.ModuleList(nn.Sequential(nn.Conv2d(x, self.nc, 1)) for x in ch)
         
         self.dfl = DFL(self.reg_max) if self.reg_max > 1 else nn.Identity()
     def forward(self, x):
