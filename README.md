@@ -2,17 +2,13 @@
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/leyolo-new-scalable-and-efficient-cnn/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=leyolo-new-scalable-and-efficient-cnn)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LilianHollard/LeYOLO/blob/main/minimal.ipynb)
-<a href="https://huggingface.co/spaces/kadirnar/LeYOLO"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg" alt="LeYOLO Demo"></a>
 
-### [NEW]
-
-- LeYOLO is now on HuggingFace! You can download LeYOLO weight directly from the HuggingFace models hub: ```lhollard/leyolo-nano```
 
 - Added LeYOLO in Google colab [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LilianHollard/LeYOLO/blob/main/minimal.ipynb)
 
 # Abstract
 
-Paper: https://arxiv.org/abs/2406.14239
+Paper (preprint!): https://arxiv.org/abs/2406.14239
 
 ![alt text](gitimg/final.png)
 
